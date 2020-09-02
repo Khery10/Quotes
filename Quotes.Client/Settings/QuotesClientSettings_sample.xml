@@ -1,0 +1,7 @@
+﻿<Settings>
+  <Delay>1000</Delay>
+  <EndPoint>
+    <IPAddress>235.5.5.1</IPAddress>
+    <Port>8001</Port>
+  </EndPoint>
+</Settings>

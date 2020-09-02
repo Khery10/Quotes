@@ -1,0 +1,10 @@
+﻿<Settings>
+  <EndPoint>
+    <IPAddress>235.5.5.1</IPAddress>
+    <Port>8001</Port>
+  </EndPoint>
+  <QuotesRange>   
+    <MaxValue>1000</MaxValue>
+  </QuotesRange>
+</Settings>
+
