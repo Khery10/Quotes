@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Quotes.Helpers\Quotes.Lib.csproj" />
+    <ProjectReference Include="..\Quotes.Lib\Quotes.Lib.csproj" />
   </ItemGroup>
 
 </Project>

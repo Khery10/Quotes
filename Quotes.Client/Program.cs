@@ -1,8 +1,9 @@
-﻿using Quotes.Client.DTO;
+﻿
 using Quotes.Lib.Serialization;
 using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,43 +13,36 @@ namespace Quotes.Client
     {
         static void Main(string[] args)
         {
-            Task.Run(async () =>
-           {
-               QuotesClientSettings settings = XmlDataSerializer.GetInstanceFile<QuotesClientSettings>("QuotesClientSettings_sample.xml");
+            //получаем на стройку работы клиента
+            QuotesClientSettings settings =
+                XmlDataSerializer.GetInstanceFile<QuotesClientSettings>("QuotesClientSettings_sample.xml");
 
-               UdpClient client = new UdpClient(settings.EndPoint.Port);
-               client.Client.ReceiveBufferSize = 0;
+            //запускаем получение данных и подсчет статистики
+            QuotesClientApplication app = new QuotesClientApplication(settings);
 
-               IPAddress remoteAddress = IPAddress.Parse(settings.EndPoint.IPAddress);
-               client.JoinMulticastGroup(remoteAddress);
+            app.OnSocketError += error =>
+            Console.WriteLine($@"UDP-клиент многоадресной рассылки вернул ошибку с кодом {error}");
+            app.Run();
 
-               BinaryDataSerializer binarySerializer = new BinaryDataSerializer();
+            Console.WriteLine("Нажмите Enter для получения статистики...");
 
-               while (true)
-               {
-                   try
-                   {
-                       UdpReceiveResult result = await client.ReceiveAsync();
+            while (true)
+            {
+                if (Console.ReadKey().Key == ConsoleKey.Enter)
+                {                   
+                    string message = $@"
+Среднее - {app.Statistics.Mean}
+Медиана - {app.Statistics.Median}
+Стандартное отклонение - {app.Statistics.StandardDeviation}
+{new string('-', 20)}
+";
+                    Console.WriteLine(message);
+                }
+                else
+                    break;
+            }
 
-                       QuoteDTO quote = binarySerializer.Deserialize<QuoteDTO>(result.Buffer);
-
-                       Console.WriteLine($"Price = {quote.Price}, Index = {quote.Index}");
-                       
-                   }
-                   catch(Exception ex)
-                   {
-                       Console.WriteLine(ex);
-                   }
-                   finally
-                   {
-                       Thread.Sleep(1000);
-                   }
-           
-               }
-           });
-
-
-            Console.ReadKey();
+            Console.ReadLine();
         }
     }
 }

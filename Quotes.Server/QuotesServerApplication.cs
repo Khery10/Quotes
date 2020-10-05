@@ -46,21 +46,20 @@ namespace Quotes.Server
             IPAddress remoteAddress = IPAddress.Parse(_endPointSettings.IPAddress);
             IPEndPoint endPoint = new IPEndPoint(remoteAddress, _endPointSettings.Port);
 
-            BinaryDataSerializer binarySerializer = new BinaryDataSerializer();
             int counter = 0;
-
             while (true)
             {
+                //получаем цену котировок
                 double price = _quotesService.GetPrice();
+
                 //отправляемая информацию о котировке
                 QuoteDTO package = new QuoteDTO()
                 {
                     Price = price,
-                    Index = counter++,
-                    DateTime = DateTime.Now
+                    Index = counter++
                 };
 
-                byte[] buffer = binarySerializer.Serialize(package);
+                byte[] buffer = JsonDataSerializer.Serialize(package);
                 sender.Send(buffer, buffer.Length, endPoint);
             }
 

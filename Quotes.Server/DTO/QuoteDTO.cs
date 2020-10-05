@@ -1,17 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Quotes.Server.DTO
 {
-    [Serializable]
+
+    /// <summary>
+    /// Класс для отправки котировки.
+    /// </summary>
+    [DataContract]
     public class QuoteDTO
     {
+
+        /// <summary>
+        /// Цена котировки.
+        /// </summary>
+        [DataMember]
         public double Price { get; set; }
 
-        public int Index { get; set; }
 
-        public DateTime DateTime { get; set; }
+        /// <summary>
+        /// Индекс пакета.
+        /// </summary>
+        [DataMember]
+        public int Index { get; set; }
 
     }
 }

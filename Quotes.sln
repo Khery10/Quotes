@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30128.74
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quotes.Server", "Quotes.Server\Quotes.Server.csproj", "{FB2CC568-6CE0-4328-BA7E-1D9E045BA76F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quotes.Lib", "Quotes.Helpers\Quotes.Lib.csproj", "{8BF5963A-9F32-4146-B264-B3FEB5FF22B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quotes.Client", "Quotes.Client\Quotes.Client.csproj", "{919FDF89-4A07-416C-866B-15F96D3F77D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quotes.Client", "Quotes.Client\Quotes.Client.csproj", "{919FDF89-4A07-416C-866B-15F96D3F77D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quotes.Lib", "Quotes.Lib\Quotes.Lib.csproj", "{CECCDCFA-220C-491A-8A62-675718477564}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +19,14 @@ Global
 		{FB2CC568-6CE0-4328-BA7E-1D9E045BA76F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB2CC568-6CE0-4328-BA7E-1D9E045BA76F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB2CC568-6CE0-4328-BA7E-1D9E045BA76F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8BF5963A-9F32-4146-B264-B3FEB5FF22B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8BF5963A-9F32-4146-B264-B3FEB5FF22B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8BF5963A-9F32-4146-B264-B3FEB5FF22B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8BF5963A-9F32-4146-B264-B3FEB5FF22B4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{919FDF89-4A07-416C-866B-15F96D3F77D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{919FDF89-4A07-416C-866B-15F96D3F77D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{919FDF89-4A07-416C-866B-15F96D3F77D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{919FDF89-4A07-416C-866B-15F96D3F77D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CECCDCFA-220C-491A-8A62-675718477564}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CECCDCFA-220C-491A-8A62-675718477564}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CECCDCFA-220C-491A-8A62-675718477564}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CECCDCFA-220C-491A-8A62-675718477564}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

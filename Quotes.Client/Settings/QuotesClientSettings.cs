@@ -13,9 +13,15 @@ namespace Quotes.Client
     [XmlRoot(ElementName = "Settings")]
     public class QuotesClientSettings
     {
+        /// <summary>
+        /// Задержка приема пакетов.
+        /// </summary>
         [Range(0, Int32.MaxValue)]
         public int Delay { get; set; }
 
+        /// <summary>
+        /// Настройка мультикастовой рассылки.
+        /// </summary>
         [Required]
         public EndPointSettings EndPoint { get; set; }
     }

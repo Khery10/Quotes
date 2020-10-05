@@ -13,6 +13,7 @@ namespace Quotes.Server
             QuotesServerSettings serverSettings = XmlDataSerializer
                 .GetInstanceFile<QuotesServerSettings>(@"QuotesServerSettings.xml");
 
+            //настраиваем DI и запускаем работу сервера
             CompositionRoot(serverSettings).Resolve<QuotesServerApplication>().Run();
         }
 
