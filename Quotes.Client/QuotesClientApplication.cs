@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Quotes.Client
 {
@@ -41,45 +42,53 @@ namespace Quotes.Client
         /// </summary>
         public event Action<SocketError> OnSocketError;
 
-
+        private Timer _timer;
+        private UdpClient _client;
 
         /// <summary>
         /// Заруск прослушивания котировок в отдельном потоке.
         /// </summary>
         public void Run()
         {
-            //обработчик сравбатывающий периодически
-            TimerCallback callback = async (state) =>
+            _client = new UdpClient(_settings.EndPoint.Port);
+            _client.Client.ReceiveBufferSize = 0;
+
+            IPAddress remoteAddress = IPAddress.Parse(_settings.EndPoint.IPAddress);
+            _client.JoinMulticastGroup(remoteAddress);
+
+            _timer = new Timer(GetQuotes);
+            _timer.Change(0, _settings.Delay);
+        }
+
+        public void Stop()
+        {
+            _client.Dispose();
+            _timer.Dispose();
+        }
+
+        /// <summary>
+        /// Получение котировок.
+        /// </summary>
+        /// <param name="state"></param>
+        private void GetQuotes(object state)
+        {
+            try
             {
-                UdpClient client = new UdpClient(_settings.EndPoint.Port);
-                client.Client.ReceiveBufferSize = 0;
+                IPEndPoint endPoint = null;
+                byte[] result = _client.Receive(ref endPoint);
+                QuoteDTO quote = JsonDataSerializer.Deserialize<QuoteDTO>(result);
 
-                IPAddress remoteAddress = IPAddress.Parse(_settings.EndPoint.IPAddress);
-                client.JoinMulticastGroup(remoteAddress);
-
-                while (true)
-                {
-                    try
-                    {
-                        UdpReceiveResult result = await client.ReceiveAsync();
-                        QuoteDTO quote = JsonDataSerializer.Deserialize<QuoteDTO>(result.Buffer);
-
-                        //обновление статистики
-                        Statistics.UpdateStatistics(quote.Price);
-                    }
-                    catch (SocketException ex)
-                    {
-                        OnSocketError(ex.SocketErrorCode);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception($"В процессе получения котировок произошла неожиданная ошибка: {ex}");
-                    }
-                };
-            };
-
-            Timer timer = new Timer(callback);
-            timer.Change(0, _settings.Delay);
-        }      
+                //обновление статистики
+                Statistics.UpdateStatistics(quote.Price);
+            }
+            catch (SocketException ex)
+            {
+                OnSocketError(ex.SocketErrorCode);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"В процессе получения котировок произошла неожиданная ошибка: {ex}");
+            }
+        }        
     }
 }
